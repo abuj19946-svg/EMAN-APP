@@ -1,0 +1,17 @@
+{
+  "name": "iman-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "إيمان — تطبيق أذكار وقرآن يعمل دون اتصال",
+  "scripts": {
+    "assets": "node scripts/fetch-assets.js",
+    "android": "npx cap sync android && npx cap open android",
+    "ios": "npx cap sync ios && npx cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2"
+  }
+}
