@@ -1,5 +1,6 @@
 {
   "appId": "com.eman.app",
-  "appName": "eman",
-  "webDir": "."
+  "appName": "إيمان",
+  "webDir": "dist",
+  "bundledWebRuntime": false
 }
