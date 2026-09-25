@@ -14,17 +14,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js (Latest LTS)
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Install Dependencies
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/ios
 
-      - name: Add Platforms & Sync
+      - name: Add Android Platform & Sync
         run: |
           npx cap add android || true
           npx cap sync android
@@ -54,10 +54,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js (Latest LTS)
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Install Dependencies
         run: |
@@ -67,10 +67,6 @@ jobs:
       - name: Add iOS Platform & Sync
         run: |
           npx cap add ios || true
-          npx cap sync ios
-
-      - name: Build iOS App Structure
-        run: |
           npx cap sync ios
 
       - name: Upload iOS Xcode Project Artifact
