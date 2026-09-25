@@ -1,44 +1,80 @@
-name: Build Mobile Apps
+name: Build Eman Mobile Apps (Android & iOS)
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
+      - master
 
 jobs:
   build-android:
+    name: Build Android APK for Eman App
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '21'
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Prepare Web Assets
+      - name: Install Dependencies
         run: |
-          mkdir -p www
-          cp -r index.html fetch-assets.js www/ 2>/dev/null || true
-          npm run build --if-present
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/ios
 
-      - name: Build Android Debug APK
+      - name: Add Platforms & Sync
         run: |
-          npx cap sync
+          npx cap add android || true
+          npx cap sync android
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Build Android APK
+        run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: EMAN-Android-APK
+          name: Eman-Android-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+
+  build-ios:
+    name: Build iOS App Project
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/ios
+
+      - name: Add iOS Platform & Sync
+        run: |
+          npx cap add ios || true
+          npx cap sync ios
+
+      - name: Build iOS App Structure
+        run: |
+          npx cap sync ios
+
+      - name: Upload iOS Xcode Project Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Eman-iOS-Project
+          path: ios/
