@@ -19,14 +19,20 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Capacitor CLI & Core
+      - name: Install Dependencies
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/ios
 
-      - name: Prepare Platforms and Sync
+      - name: Clean & Prepare Web Assets Folder (dist)
         run: |
-          npx cap add android || true
+          rm -rf dist android ios
+          mkdir -p dist
+          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='dist' . dist/ || true
+
+      - name: Add Android Platform & Sync
+        run: |
+          npx cap add android
           npx cap sync android
 
       - name: Setup Java JDK
@@ -59,14 +65,20 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install Capacitor CLI & Core
+      - name: Install Dependencies
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/ios
 
-      - name: Prepare iOS Platform and Sync
+      - name: Clean & Prepare Web Assets Folder (dist)
         run: |
-          npx cap add ios || true
+          rm -rf dist android ios
+          mkdir -p dist
+          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='dist' . dist/ || true
+
+      - name: Add iOS Platform & Sync
+        run: |
+          npx cap add ios
           npx cap sync ios
 
       - name: Upload iOS Xcode Project Artifact
