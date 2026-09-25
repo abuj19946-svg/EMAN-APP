@@ -14,17 +14,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js (Latest LTS)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Install Dependencies
+      - name: Install Capacitor CLI & Core
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/ios
 
-      - name: Add Android Platform & Sync
+      - name: Prepare Platforms and Sync
         run: |
           npx cap add android || true
           npx cap sync android
@@ -54,17 +54,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js (Latest LTS)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Install Dependencies
+      - name: Install Capacitor CLI & Core
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/ios
 
-      - name: Add iOS Platform & Sync
+      - name: Prepare iOS Platform and Sync
         run: |
           npx cap add ios || true
           npx cap sync ios
