@@ -24,15 +24,15 @@ jobs:
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/ios
 
-      - name: Clean & Prepare Web Assets Folder (dist)
+      - name: Create dist folder and copy files
         run: |
-          rm -rf dist android ios
+          rm -rf dist
           mkdir -p dist
-          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='dist' . dist/ || true
+          cp -r index.html css js assets icons dist/ 2>/dev/null || cp -r * dist/ 2>/dev/null || true
 
-      - name: Add Android Platform & Sync
+      - name: Sync Capacitor Android
         run: |
-          npx cap add android
+          npx cap add android || true
           npx cap sync android
 
       - name: Setup Java JDK
@@ -70,15 +70,15 @@ jobs:
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/ios
 
-      - name: Clean & Prepare Web Assets Folder (dist)
+      - name: Create dist folder and copy files
         run: |
-          rm -rf dist android ios
+          rm -rf dist
           mkdir -p dist
-          rsync -av --exclude='node_modules' --exclude='.git' --exclude='.github' --exclude='dist' . dist/ || true
+          cp -r index.html css js assets icons dist/ 2>/dev/null || cp -r * dist/ 2>/dev/null || true
 
-      - name: Add iOS Platform & Sync
+      - name: Sync Capacitor iOS
         run: |
-          npx cap add ios
+          npx cap add ios || true
           npx cap sync ios
 
       - name: Upload iOS Xcode Project Artifact
