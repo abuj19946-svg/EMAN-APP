@@ -1,5 +1,5 @@
 {
   "appId": "com.eman.app",
   "appName": "eman",
-  "webDir": "www"
+  "webDir": "."
 }
